@@ -1,13 +1,15 @@
 package android.example.gpsapp.utils;
 
+import java.util.ArrayList;
+
 public enum Lang {
-    ENGLISH(0,"English", "en"),
-    RUSSIAN(1,"Russian", "ru"),
-    ARABIC(2,"Arabic", "ar"),
-    FRENCH(3,"French", "fr"),
-    TURKISH(4,"Turkish", "tr"),
-    SPANISH(5,"Spanish","es"),
-    KOREAN(6,"Korean","ko"),
+    ENGLISH(0, "English", "en"),
+    RUSSIAN(1, "Russian", "ru"),
+    ARABIC(2, "Arabic", "ar"),
+    FRENCH(3, "French", "fr"),
+    TURKISH(4, "Turkish", "tr"),
+    SPANISH(5, "Spanish", "es"),
+    KOREAN(6, "Korean", "ko"),
     ;
 
     private int id;
@@ -30,5 +32,14 @@ public enum Lang {
         this.id = id;
         this.long_lang = long_lang;
         this.short_lang = short_lang;
+    }
+
+
+    public static ArrayList<String> getLangsArrayList() {
+        ArrayList<String> langs = new ArrayList<>();
+        for (Lang l : Lang.values()) {
+            langs.add(l.getLong_lang());
+        }
+        return langs;
     }
 }

@@ -52,7 +52,7 @@ public final class TranslateWebService {
     public static String translateText(String fromToLangs, String text) {
         String translateUri = constructServiceUri(fromToLangs, text, AvailableService.TRANSLATE);
         HttpURLConnection connection = connectToWebService(translateUri);
-        String output = getReponseMessage(connection);
+        String output = getResponseMessage(connection);
         try {
             JSONObject jb = new JSONObject(output);
             JSONArray array = new JSONArray(jb.getString(TRANSLATE_RESPONSE_MESSAGE_HEADER));
@@ -69,7 +69,7 @@ public final class TranslateWebService {
     public static String detectLanguage(String hint, String text) {
         String detectUri = constructServiceUri(hint, text, AvailableService.DETECT);
         HttpURLConnection connection = connectToWebService(detectUri);
-        String output = getReponseMessage(connection);
+        String output = getResponseMessage(connection);
         try {
             JSONObject jb = new JSONObject(output);
             JSONArray array = new JSONArray(jb.getString(DETECT_RESPONSE_MESSAGE_HEADER));
@@ -84,7 +84,7 @@ public final class TranslateWebService {
     }
 
 
-    private static String getReponseMessage(HttpURLConnection connection) {
+    private static String getResponseMessage(HttpURLConnection connection) {
         String output = "";
         if (connection != null) {
             try (BufferedReader br = new BufferedReader(
