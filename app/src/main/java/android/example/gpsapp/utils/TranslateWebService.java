@@ -18,7 +18,7 @@ public final class TranslateWebService {
     private enum AvailableService {TRANSLATE, DETECT}
 
     private static final String YANDEX_API_KEY = "trnsl.1.1.20200103T174915Z.bf0d375d35660b5c.5c230b73e56af2aac30cd21282774483a0ee0ba5";
-    private static final String GOOGLE_API_KEY = "AIzaSyA8odQZVLa3umoxZIEhP2yu3k-NG7BXDgg";
+    private static final String GOOGLE_API_KEY = "";
     private static final String SERVICE_HOST_URI = "https://translate.yandex.net";
     private static final String SERVICE_SETTINGS_URI = "/api/v1.5/tr.json";
     private static final String SERVICE_URI = SERVICE_HOST_URI + SERVICE_SETTINGS_URI;
