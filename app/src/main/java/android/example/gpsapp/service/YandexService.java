@@ -2,6 +2,7 @@ package android.example.gpsapp.service;
 
 import android.example.gpsapp.utils.HttpHeader;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -15,14 +16,20 @@ import java.util.HashMap;
 public class YandexService extends AbstractTranslateService {
 
     private static final char DELIMITER = '-';
+    private static final String RESPONSE_TEXT_HEADER = "text";
+    private static final String REQUEST_TEXT_PARAM = RESPONSE_TEXT_HEADER;
+    private static final String REQUEST_Lang_PARAM = "lang";
+    private static final String REQUEST_KEY_PARAM = "key";
+
+//    private static final String DETECT_RESPONSE_MESSAGE_HEADER = "lang";
 
     @Override
     public RequestMessage getRequestMessage(RequestElements requestElements) {
-        String url = requestElements.getServiceProvider().YANDEX.getUrl();
+        String url = requestElements.getServiceProvider().getUrl();
         HashMap<String, String> urlParams = new HashMap<>();
-        urlParams.put("key", ServiceProvider.YANDEX.getApiKey());
-        urlParams.put("lang", requestElements.getFromLang().getShort_lang() + DELIMITER + requestElements.getToLang().getShort_lang());
-        urlParams.put("text", requestElements.getText());
+        urlParams.put(REQUEST_KEY_PARAM, ServiceProvider.YANDEX.getApiKey());
+        urlParams.put(REQUEST_Lang_PARAM, requestElements.getFromLang().getShort_lang() + DELIMITER + requestElements.getToLang().getShort_lang());
+        urlParams.put(REQUEST_TEXT_PARAM, requestElements.getText());
         HashMap<String, String> requestHeaders = new HashMap<>();
         requestHeaders.put(HttpHeader.ACCEPT.getHeaderKey(), HttpHeader.ACCEPT.getHeaderDefaultValue());
         requestHeaders.put(HttpHeader.CONTENT_TYPE.getHeaderKey(), HttpHeader.CONTENT_TYPE.getHeaderDefaultValue());
@@ -47,7 +54,6 @@ public class YandexService extends AbstractTranslateService {
             }
         }
         HashMap<String, String> responseHeaders = new HashMap<>();
-
         return new ResponseMessage(output, responseHeaders);
     }
 
@@ -57,14 +63,7 @@ public class YandexService extends AbstractTranslateService {
         try {
             JSONParser parser = new JSONParser();
             JSONObject jsonObject = (JSONObject) parser.parse(response);
-            response = jsonObject.get("text").toString();
-
-//            JSONObject jb = new JSONObject(response);
-//            JSONArray array = new JSONArray(jb.getString(TRANSLATE_RESPONSE_MESSAGE_HEADER));
-//            response = "";
-//            for (int i = 0; i < array.length(); i++) {
-//                output += array.getString(i);
-//            }
+            response = ((JSONArray) jsonObject.get(RESPONSE_TEXT_HEADER)).get(0).toString();
         } catch (ParseException e) {
             e.printStackTrace();
         }

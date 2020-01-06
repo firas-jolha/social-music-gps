@@ -114,12 +114,19 @@ public class MyTranslateActivity extends AppCompatActivity {
                     }
                     String output = "";
                     try {
+                        if (text == null || text.length() <= 0) return;
+
                         Lang fromLang = Lang.values()[fromLangSpinner.getSelectedItemPosition()];
                         Lang toLang = Lang.values()[toLangSpinner.getSelectedItemPosition()];
-                        ServiceProvider serviceProvider = ServiceProvider.YANDEX;
-                        RequestElements requestElements = new RequestElements(text, fromLang, toLang, serviceProvider);
+                        if (fromLang == toLang) {
+                            output = text;
+                        } else {
 
-                        output = new TranslateService().execute(requestElements).get();
+                            ServiceProvider serviceProvider = ServiceProvider.MYMEMORY;
+                            RequestElements requestElements = new RequestElements(text, fromLang, toLang, serviceProvider);
+
+                            output = new TranslateService().execute(requestElements).get();
+                        }
                     } catch (ExecutionException e) {
                         e.printStackTrace();
                     } catch (InterruptedException e) {

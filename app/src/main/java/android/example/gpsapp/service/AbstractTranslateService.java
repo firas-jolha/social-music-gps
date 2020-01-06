@@ -20,7 +20,7 @@ public abstract class AbstractTranslateService implements ITranslateSevice {
     public HttpURLConnection connectToService(RequestMessage requestMessage) {
         HttpURLConnection connection = null;
         try {
-            URL url = new URL(requestMessage.getUrl());
+            URL url = new URL(requestMessage.getUrlWithParams());
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(requestMessage.getRequestHeaders().get("Request-Method"));
             for (Map.Entry<String, String> e : requestMessage.getRequestHeaders().entrySet()) {
@@ -52,4 +52,17 @@ public abstract class AbstractTranslateService implements ITranslateSevice {
         ResponseMessage responseMessage = getResponseMessage(connection);
         return processResponseMessage(responseMessage);
     }
+
+    // factory method
+    public static ITranslateSevice getTranslateService(ServiceProvider serviceProvider) {
+        switch (serviceProvider) {
+            case YANDEX:
+                return new YandexService();
+            case MYMEMORY:
+                return new MymemoryService();
+            default:
+                return new YandexService();
+        }
+    }
+
 }
