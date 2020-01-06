@@ -1,6 +1,8 @@
 package android.example.gpsapp;
 
 import android.content.pm.PackageManager;
+import android.example.gpsapp.service.RequestElements;
+import android.example.gpsapp.service.ServiceProvider;
 import android.example.gpsapp.utils.Lang;
 import android.os.Bundle;
 import android.text.Editable;
@@ -33,7 +35,7 @@ public class MyTranslateActivity extends AppCompatActivity {
     private FloatingActionButton exchangeLangButton = null;
 
     // Local attributes
-    private String text = "";
+//    private String text = "";
     private MyTranslateActivity current = this;
 
     private void init() {
@@ -103,7 +105,7 @@ public class MyTranslateActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                text = s.toString();
+                String text = s.toString();
 
                 {
                     String[] perms = {"android.permission.INTERNET"};
@@ -112,7 +114,12 @@ public class MyTranslateActivity extends AppCompatActivity {
                     }
                     String output = "";
                     try {
-                        output = new TranslateService().execute(text, fromToLangs(fromLangSpinner, toLangSpinner)).get();
+                        Lang fromLang = Lang.values()[fromLangSpinner.getSelectedItemPosition()];
+                        Lang toLang = Lang.values()[toLangSpinner.getSelectedItemPosition()];
+                        ServiceProvider serviceProvider = ServiceProvider.YANDEX;
+                        RequestElements requestElements = new RequestElements(text, fromLang, toLang, serviceProvider);
+
+                        output = new TranslateService().execute(requestElements).get();
                     } catch (ExecutionException e) {
                         e.printStackTrace();
                     } catch (InterruptedException e) {
@@ -155,18 +162,5 @@ public class MyTranslateActivity extends AppCompatActivity {
 
     } // OnCreate()
 
-    private static String fromToLangs(Spinner fromSpinner, Spinner toSpinner) {
-        String from = "en";
-        String to = "en";
-        for (Lang l : Lang.values()) {
-            if (fromSpinner.getSelectedItemId() == l.getId()) {
-                from = l.getShort_lang();
-            }
-            if (toSpinner.getSelectedItemId() == l.getId()) {
-                to = l.getShort_lang();
-            }
-        }
-        return from + "-" + to;
-    } // fromToLangs()
 
 }
