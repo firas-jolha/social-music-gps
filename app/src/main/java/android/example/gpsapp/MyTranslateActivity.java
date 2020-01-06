@@ -164,6 +164,7 @@ public class MyTranslateActivity extends AppCompatActivity {
                 } else {
                     serviceProvider = ServiceProvider.MYMEMORY;
                 }
+                translateText.setText(translateText.getText() + "");
             }
         };
     }
