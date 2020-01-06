@@ -20,7 +20,7 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:textAlignment="gravity"
-        app:layout_constraintBottom_toTopOf="@+id/translateText"
+        app:layout_constraintBottom_toTopOf="@+id/tableRow"
         app:layout_constraintEnd_toStartOf="@+id/exchangeLanguageButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -43,6 +43,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:maxImageSize="24dp" />
 
+    <Switch
+        android:id="@+id/translateServiceSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="3dp"
+        android:text="Yandex"
+        app:layout_constraintBottom_toBottomOf="@+id/tableRow"
+        app:layout_constraintEnd_toEndOf="@+id/tableRow"
+        app:layout_constraintStart_toStartOf="@+id/tableRow"
+        app:layout_constraintTop_toTopOf="@+id/tableRow" />
+
     <Spinner
         android:id="@+id/toLangSpinner"
         android:layout_width="wrap_content"
@@ -56,7 +68,7 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:textAlignment="gravity"
-        app:layout_constraintBottom_toTopOf="@+id/translateText"
+        app:layout_constraintBottom_toTopOf="@+id/tableRow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/exchangeLanguageButton"
         app:layout_constraintTop_toTopOf="parent" />
@@ -64,7 +76,7 @@
     <EditText
         android:id="@+id/translateText"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="283dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginRight="8dp"
@@ -78,9 +90,10 @@
         android:paddingRight="20dp"
         android:paddingBottom="15dp"
         android:textSize="@dimen/translate_text_size"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/exchangeLanguageButton" />
+        app:layout_constraintTop_toBottomOf="@+id/tableRow" />
 
     <EditText
         android:id="@+id/outputText"
@@ -104,5 +117,23 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/translateText" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.090287276" />
+
+    <TableRow
+        android:id="@+id/tableRow"
+        android:layout_width="0dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

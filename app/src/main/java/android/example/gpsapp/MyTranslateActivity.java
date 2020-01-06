@@ -12,8 +12,10 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -26,6 +28,7 @@ import java.util.concurrent.ExecutionException;
 public class MyTranslateActivity extends AppCompatActivity {
 
     private ArrayList<String> langs = Lang.getLangsArrayList();
+    private ServiceProvider serviceProvider = ServiceProvider.YANDEX;
 
     // Views
     private Spinner fromLangSpinner = null;
@@ -33,6 +36,7 @@ public class MyTranslateActivity extends AppCompatActivity {
     private EditText translateText = null;
     private EditText outputText = null;
     private FloatingActionButton exchangeLangButton = null;
+    private Switch translateServiceSwitch = null;
 
     // Local attributes
 //    private String text = "";
@@ -44,6 +48,7 @@ public class MyTranslateActivity extends AppCompatActivity {
         translateText = findViewById(R.id.translateText);
         outputText = findViewById(R.id.outputText);
         exchangeLangButton = findViewById(R.id.exchangeLanguageButton);
+        translateServiceSwitch = findViewById(R.id.translateServiceSwitch);
     }
 
     private void initLangSpinner(Spinner langSpinner) {
@@ -122,7 +127,7 @@ public class MyTranslateActivity extends AppCompatActivity {
                             output = text;
                         } else {
 
-                            ServiceProvider serviceProvider = ServiceProvider.MYMEMORY;
+                            ServiceProvider serviceProvider = current.serviceProvider;
                             RequestElements requestElements = new RequestElements(text, fromLang, toLang, serviceProvider);
 
                             output = new TranslateService().execute(requestElements).get();
@@ -150,6 +155,19 @@ public class MyTranslateActivity extends AppCompatActivity {
         };
     }
 
+    private CompoundButton.OnCheckedChangeListener getTranslateServiceOnCheckedChangeListener() {
+        return new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    serviceProvider = ServiceProvider.YANDEX;
+                } else {
+                    serviceProvider = ServiceProvider.MYMEMORY;
+                }
+            }
+        };
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -166,6 +184,9 @@ public class MyTranslateActivity extends AppCompatActivity {
 
 
         exchangeLangButton.setOnClickListener(getExchangeLangaugeOnClickListener());
+
+        translateServiceSwitch.setOnCheckedChangeListener(getTranslateServiceOnCheckedChangeListener());
+        translateServiceSwitch.setChecked(true);
 
     } // OnCreate()
 
