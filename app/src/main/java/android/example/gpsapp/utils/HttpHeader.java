@@ -1,7 +1,12 @@
 package android.example.gpsapp.utils;
 
 public enum HttpHeader {
-    REQUEST_METHOD("Request-Method","POST");
+    REQUEST_METHOD("Request-Method", "POST"),
+    CONTENT_TYPE("Content-Type", "application/x-www-form-urlencoded"),
+    ACCEPT("Accept", "application/json"),
+    ENCODING_CHARSET("Encoding-Charset","UTF-8")
+    ;
+
 
     private String headerKey;
     private String headerDefaultValue;
