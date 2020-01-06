@@ -22,13 +22,15 @@ import androidx.core.app.ActivityCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 public class MyTranslateActivity extends AppCompatActivity {
 
-    private ArrayList<String> langs = Lang.getLangsArrayList();
+    // choose service
     private ServiceProvider serviceProvider = ServiceProvider.YANDEX;
+    private static final long DELAY = 1000; //milliseconds
 
     // Views
     private Spinner fromLangSpinner = null;
@@ -38,8 +40,7 @@ public class MyTranslateActivity extends AppCompatActivity {
     private FloatingActionButton exchangeLangButton = null;
     private Switch translateServiceSwitch = null;
 
-    // Local attributes
-//    private String text = "";
+    // current activity
     private MyTranslateActivity current = this;
 
     private void init() {
@@ -52,7 +53,7 @@ public class MyTranslateActivity extends AppCompatActivity {
     }
 
     private void initLangSpinner(Spinner langSpinner) {
-        ArrayAdapter<String> arrayAdapter1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, langs);
+        ArrayAdapter<String> arrayAdapter1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, Lang.getLangsArrayList());
         langSpinner.setAdapter(arrayAdapter1);
     }
 
@@ -98,6 +99,8 @@ public class MyTranslateActivity extends AppCompatActivity {
 
     private TextWatcher getTextWatcher() {
         return new TextWatcher() {
+            private Timer timer = new Timer();
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 Log.d("Text Changed", String.format("s = %s, start = %d, count = %d, after = %d", s, start, count, after));
@@ -110,36 +113,43 @@ public class MyTranslateActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String text = s.toString();
 
-                {
-                    String[] perms = {"android.permission.INTERNET"};
-                    if (checkSelfPermission("android.permission.INTERNET") != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(current, perms, 1);
-                    }
-                    String output = "";
-                    try {
-                        if (text == null || text.length() <= 0) return;
+                final String text = s.toString();
+                timer.cancel();
+                timer = new Timer();
+                timer.schedule(new TimerTask() {
+                                   @Override
+                                   public void run() {
+                                       {
+                                           String[] perms = {"android.permission.INTERNET"};
+                                           if (checkSelfPermission("android.permission.INTERNET") != PackageManager.PERMISSION_GRANTED) {
+                                               ActivityCompat.requestPermissions(current, perms, 1);
+                                           }
+                                           String output = "";
+                                           try {
+                                               if (text == null || text.length() <= 0) return;
 
-                        Lang fromLang = Lang.values()[fromLangSpinner.getSelectedItemPosition()];
-                        Lang toLang = Lang.values()[toLangSpinner.getSelectedItemPosition()];
-                        if (fromLang == toLang) {
-                            output = text;
-                        } else {
+                                               Lang fromLang = Lang.values()[fromLangSpinner.getSelectedItemPosition()];
+                                               Lang toLang = Lang.values()[toLangSpinner.getSelectedItemPosition()];
+                                               if (fromLang == toLang) {
+                                                   output = text;
+                                               } else {
 
-                            ServiceProvider serviceProvider = current.serviceProvider;
-                            RequestElements requestElements = new RequestElements(text, fromLang, toLang, serviceProvider);
+                                                   ServiceProvider serviceProvider = current.serviceProvider;
+                                                   RequestElements requestElements = new RequestElements(text, fromLang, toLang, serviceProvider);
 
-                            output = new TranslateService().execute(requestElements).get();
-                        }
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    outputText.setText(output);
-                }
-
+                                                   output = new TranslateService().execute(requestElements).get();
+                                               }
+                                           } catch (ExecutionException e) {
+                                               e.printStackTrace();
+                                           } catch (InterruptedException e) {
+                                               e.printStackTrace();
+                                           }
+                                           outputText.setText(output);
+                                       }
+                                   }
+                               }, DELAY
+                );
             }
         };
     }

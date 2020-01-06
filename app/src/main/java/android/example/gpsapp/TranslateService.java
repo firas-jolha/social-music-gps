@@ -6,18 +6,15 @@ import android.example.gpsapp.service.RequestElements;
 import android.os.AsyncTask;
 
 public class TranslateService extends AsyncTask<RequestElements, Integer, String> {
-    @Override
-    protected String doInBackground(RequestElements... requestElementsArr) {
+    private RequestElements temp = null;
+    private String translatedText;
 
-        RequestElements requestElements = requestElementsArr[0];
+    @Override
+    protected String doInBackground(final RequestElements... requestElementsArr) {
+        temp = requestElementsArr[0];
+        RequestElements requestElements = temp;
         ITranslateSevice service = AbstractTranslateService.getTranslateService(requestElements.getServiceProvider());
-        String translatedText = service.translateText(requestElements);
-//
-//        try {
-//            Thread.sleep(1000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        translatedText = service.translateText(requestElements);
         return translatedText;
     }
 }
