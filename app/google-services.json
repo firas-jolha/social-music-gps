@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "79783499250",
+    "firebase_url": "https://advanced-translator.firebaseio.com",
+    "project_id": "advanced-translator",
+    "storage_bucket": "advanced-translator.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:79783499250:android:27c9de0c0ab04cf509076b",
+        "android_client_info": {
+          "package_name": "firas.jolha.gpsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "79783499250-rttnts4se8ufshvovb6rabsc9lh95j3s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8odQZVLa3umoxZIEhP2yu3k-NG7BXDgg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "79783499250-rttnts4se8ufshvovb6rabsc9lh95j3s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

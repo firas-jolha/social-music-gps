@@ -1,4 +1,4 @@
-package android.example.gpsapp;
+package firas.jolha.gpsapp;
 
 import android.content.pm.PackageManager;
 import android.example.gpsapp.database.MyFirebaseDatabase;

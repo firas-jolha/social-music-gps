@@ -1,4 +1,4 @@
-package android.example.gpsapp.utils;
+package firas.jolha.gpsapp.utils;
 
 @Deprecated
 public final class TranslateWebService {

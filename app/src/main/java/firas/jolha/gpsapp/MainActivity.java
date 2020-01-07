@@ -1,4 +1,4 @@
-package android.example.gpsapp;
+package firas.jolha.gpsapp;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
